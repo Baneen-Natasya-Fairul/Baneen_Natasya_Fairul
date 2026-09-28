@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nur Baneen Natasya's Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#FFFFFF; /* Brightened to pure white */
+  --muted:#D1C9E6; /* Brightened to a very light, almost white tone for better contrast */
+  --deep:#0A0A18;
+  --hot:#FF4FA0; --cyan:#4FD8E8; --blue:#3E63C9; --pink:#E4508F;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  color:var(--ink);
+  font-family:'JetBrains Mono',monospace;
+  background-color:var(--deep);
+  -webkit-font-smoothing:antialiased;
+  height:100dvh;
+  overflow:hidden;
+  position: relative;
+}
+/* Lowered the background opacity to 20% (0.2) */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  pointer-events: none;
+}
+.app{
+  display:flex;
+  height:100dvh;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- LEFT: identity rail ---- */
+.side{
+  width:300px;flex:none;padding:28px 24px;display:flex;flex-direction:column;
+  border-right:1px solid rgba(144,137,173,.18);
+  background:linear-gradient(180deg,rgba(62,99,201,.08),transparent 40%);
+  position:relative;z-index:2;
+}
+.mark{font-family:'Fraunces',serif;font-style:italic;font-size:21px;margin-bottom:2px}
+.mark .s{color:var(--hot);font-style:normal}
+.role{font-size:15px;color:var(--muted);margin:2px 0 26px;line-height:1.6}
+nav{display:flex;flex-direction:column;gap:6px;margin-bottom:auto}
+nav button{
+  all:unset;cursor:pointer;font-family:inherit;font-size:12.5px;color:var(--muted);
+  padding:9px 10px;border-radius:8px;display:flex;align-items:center;gap:10px;
+  transition:background .15s ease,color .15s ease;
+}
+nav button .dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.4}
+nav button:hover{color:var(--ink)}
+nav button[aria-current="true"]{color:var(--ink);background:rgba(255,79,160,.1)}
+nav button[aria-current="true"] .dot{background:var(--hot);opacity:1;box-shadow:0 0 8px var(--hot)}
+.status{font-size:10.5px;color:var(--muted);padding-top:18px;border-top:1px solid rgba(144,137,173,.18)}
+.status .b{color:var(--cyan)}
+.status .cursor{display:inline-block;width:6px;height:11px;background:var(--cyan);margin-left:2px;animation:blink 1s steps(1) infinite;vertical-align:-2px}
+@keyframes blink{50%{opacity:0}}
+
+/* ---- RIGHT: stage ---- */
+.stage{flex:1;position:relative;overflow:hidden}
+.stage::before{
+  content:"";position:absolute;inset:0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 700px 500px at 80% 0%, rgba(228,80,143,.28), transparent 60%),
+    radial-gradient(ellipse 600px 600px at 10% 90%, rgba(62,99,201,.32), transparent 60%);
+}
+.stage::after{
+  content:"";position:absolute;inset:0;opacity:.6;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 15% 25%,#fff,transparent),
+    radial-gradient(1px 1px at 40% 65%,#fff,transparent),
+    radial-gradient(1.5px 1.5px at 70% 20%,#fff,transparent),
+    radial-gradient(1px 1px at 85% 75%,#fff,transparent),
+    radial-gradient(1.5px 1.5px at 55% 45%,#fff,transparent),
+    radial-gradient(1px 1px at 25% 85%,#fff,transparent);
+}
+.panel{
+  position:absolute;inset:0;padding:48px 56px;overflow-y:auto;
+  opacity:0;transform:translateY(6px);pointer-events:none;
+  transition:opacity .35s ease,transform .35s ease;
+}
+.panel[data-open="true"]{opacity:1;transform:none;pointer-events:auto}
+
+/* work / starmap */
+#panel-work{padding:0}
+
+/* ---- INTRO POEM (Moved into readout block and styled to pop) ---- */
+.intro-poem {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--ink);
+  line-height: 1.8;
+  text-align: right;
+  pointer-events: none; /* Un-interactable */
+  background: rgba(10, 10, 24, 0.7); /* Dark semi-transparent background to pop */
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  flex: none;
+}
+
+.map{position:relative;width:100%;height:calc(100% - 170px);min-height:350px}
+.star{
+  position:absolute;width:10px;height:10px;border-radius:50%;cursor:pointer;
+  background:radial-gradient(circle at 35% 30%,#fff,var(--glow,var(--hot)) 60%,transparent 75%);
+  box-shadow:0 0 12px 1.5px var(--glow,var(--hot));border:none;padding:0;
+  transition:transform .2s ease;
+}
+.star.big{width:20px;height:20px;box-shadow:0 0 22px 4px var(--glow,var(--hot))}
+.star:hover,.star:focus-visible{transform:scale(1.6)}
+.star[aria-pressed="true"]{transform:scale(1.9)}
+.star .label{
+  position:absolute;top:20px;left:50%;transform:translateX(-50%);white-space:nowrap;
+  font-size:10.5px;color:var(--muted);pointer-events:none;
+}
+.readout{
+  position:absolute;left:0;right:0;bottom:0;padding:26px 56px 34px;
+  display:flex;gap:22px;align-items:flex-end;
+  background:linear-gradient(0deg,rgba(10,10,24,.94),rgba(10,10,24,.55) 85%,transparent);
+}
+.preview{
+  width:148px;height:102px;flex:none;border-radius:10px;overflow:hidden;position:relative;
+  border:1px solid rgba(144,137,173,.3);background:#0D0D1F;
+}
+.preview.visual{
+  background:
+    radial-gradient(circle at 30% 28%, var(--glow,var(--hot)), transparent 55%),
+    radial-gradient(circle at 72% 70%, var(--c2,var(--blue)), transparent 60%),
+    linear-gradient(135deg, var(--c1,var(--blue)), var(--c2,var(--pink)));
+}
+.preview.visual img, .preview.visual video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.preview.code{padding:10px 11px;font-size:9px;line-height:1.65;white-space:pre-wrap;color:var(--muted)}
+.preview.code .kw{color:var(--hot)}
+.preview.code .fn{color:var(--cyan)}
+.preview.code .cm{opacity:.55}
+.readout .text{flex:1;min-width:0}
+.readout h3{font-family:'Fraunces',serif;font-style:italic;font-size:22px;margin:0 0 6px;color:var(--ink)}
+.readout .meta{font-size:11px;color:var(--cyan);margin-bottom:8px;display:block}
+.readout p{font-size:12.5px;color:var(--muted);max-width:52ch;margin:0;line-height:1.7}
+@media (max-width:760px){
+  .readout{flex-direction:column;align-items:flex-start}
+  .preview{width:100%;height:80px}
+  .intro-poem {
+    align-self: flex-end; /* Keeps it right-aligned on mobile */
+    font-size: 13px;
+    padding: 12px 16px;
+    margin-top: 12px;
+  }
+}
+
+/* about & project / toggle & styles */
+.togglewrap{display:flex;align-items:center;gap:14px;margin:6px 0 30px}
+.toggle{
+  position:relative;width:64px;height:30px;border-radius:100px;cursor:pointer;
+  background:linear-gradient(90deg,rgba(228,80,143,.35),rgba(62,99,201,.35));border:1px solid rgba(144,137,173,.3);
+}
+.toggle .knob{
+  position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--ink);
+  transition:left .25s ease;box-shadow:0 0 10px rgba(0,0,0,.4)
+}
+.toggle[data-state="engineer"] .knob{left:37px}
+.togglelabels{font-size:11.5px;color:var(--muted);display:flex;gap:18px}
+.togglelabels .on{color:var(--ink)}
+
+#panel-about h2, #panel-project h2{font-family:'Fraunces',serif;font-style:italic;font-size:30px;margin:0 0 4px}
+.bio{max-width:58ch;font-size:13.5px;color:var(--muted);line-height:1.85}
+.bio strong{color:var(--ink);font-weight:500}
+.skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.skills span{font-size:11px;padding:6px 12px;border-radius:100px;color:var(--muted);border:1px solid rgba(144,137,173,.25)}
+
+/* contact & identity layouts / console */
+#panel-about h2.contact-h2{font-family:'Fraunces',serif;font-style:italic;font-size:30px;margin:0 0 22px;
+  background:linear-gradient(100deg,var(--hot),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.console{font-size:13px;line-height:2.1;color:var(--muted)}
+.console .p{color:var(--cyan)}
+.console a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--hot)}
+.console a:hover{color:var(--hot)}
+.console .cursor2{display:inline-block;width:7px;height:13px;background:var(--hot);margin-left:4px;animation:blink 1s steps(1) infinite;vertical-align:-2px}
+
+.about-container {
+  display: flex;
+  gap: 40px;
+  margin-top: 48px;
+  align-items: flex-start;
+}
+.profile-photo {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 481 / 781;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(144,137,173,.2);
+  flex: none;
+}
+.personal-details {
+  flex: 1;
+  min-width: 0;
+}
+
+/* project panel specific */
+.back-btn{
+  all:unset;cursor:pointer;font-family:inherit;font-size:12px;color:var(--cyan);
+  display:inline-flex;align-items:center;gap:6px;margin-bottom:30px;
+  transition:color .2s ease;
+}
+.back-btn:hover{color:var(--hot)}
+
+/* ---- NEW PROJECT LAYOUT & GALLERY STYLES ---- */
+.project-layout {
+  max-width: 1050px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.project-top-row {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 40px;
+  align-items: start;
+}
+.project-text-content h2 {
+  margin: 0 0 12px;
+}
+#p-desc {
+  text-align: justify;
+  margin-bottom: 24px;
+}
+.gallery-main, .gallery-sub {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(144,137,173,.2);
+}
+.gallery-main {
+  background: linear-gradient(135deg, rgba(62,99,201,.1), rgba(228,80,143,.1));
+}
+.gallery-bottom-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.gallery-sub {
+  background: linear-gradient(135deg, rgba(79,216,232,.08), rgba(62,99,201,.08));
+}
+.gallery-main img, .gallery-main video,
+.gallery-sub img, .gallery-sub video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+.gallery-main img:hover, .gallery-main video:hover,
+.gallery-sub img:hover, .gallery-sub video:hover {
+  transform: scale(1.02);
+  opacity: 0.95;
+}
+.gallery-caption {
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+  text-align: center;
+  margin: 8px 0 30px;
+  line-height: 1.6;
+}
+.gallery-caption .hl {
+  color: var(--cyan);
+}
+
+/* research publications: names only */
+.paper-list{display:none;list-style:none;margin:8px 0 0;padding:0;max-width:760px}
+.paper-list li{
+  display:flex;gap:16px;align-items:baseline;
+  padding:14px 0;border-bottom:1px solid rgba(144,137,173,.18);
+  font-family:'Fraunces',serif;font-style:italic;font-size:19px;color:var(--ink);
+  cursor:default;line-height:1.5;
+}
+.paper-list li::before{
+  content:"";width:6px;height:6px;border-radius:50%;background:var(--hot);
+  box-shadow:0 0 8px var(--hot);flex:none;transform:translateY(-3px);
+}
+.project-layout.papers-mode .paper-list{display:block}
+.project-layout.papers-mode .project-top-row{grid-template-columns:1fr}
+.project-layout.papers-mode .gallery-main,
+.project-layout.papers-mode .gallery-bottom-row,
+.project-layout.papers-mode .gallery-caption,
+.project-layout.papers-mode #p-desc{display:none}
+
+/* Independent Creative Work Layout Adjustments */
+.project-layout.creative-mode .project-top-row {
+  grid-template-columns: 1fr;
+}
+.project-layout.creative-mode .gallery-main {
+  display: none;
+}
+.project-layout.creative-mode .gallery-sub {
+  aspect-ratio: 2028 / 2640; /* Force 3 images to the exact required size proportion */
+}
+
+@media (max-width:900px) {
+  .project-top-row {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .about-container {
+    flex-direction: column;
+  }
+  .profile-photo {
+    max-width: 100%;
+  }
+}
+@media (max-width:760px){
+  body{height:auto;overflow:visible}
+  .app{flex-direction:column;height:auto}
+  .side{width:100%;border-right:none;border-bottom:1px solid rgba(144,137,173,.18)}
+  nav{flex-direction:row;flex-wrap:wrap;margin-bottom:0}
+  .status{display:none}
+  .stage{height:calc(100dvh - 150px);min-height:520px}
+  .panel{padding:30px 22px}
+  .readout{padding:20px 22px 26px}
+  .gallery-bottom-row {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <aside class="side">
+    <div class="mark">Nur Baneen Natasya's Portfolio <span class="s">✦</span></div>
+    <p class="role">engineer / researcher / designer</p>
+    <p class="role" style="text-align: justify;">I thrive to combine engineering and art into a piece of work that is both technically precise and visually aesthetic, whether through 3D modeling or digital art. Creativity is the hammer that brings new ideas to life, while engineering is the nail that anchors those dreams in reality.</p>
+
+    <nav id="nav">
+      <button data-panel="work" aria-current="true"><span class="dot"></span>work</button>
+      <button data-panel="about"><span class="dot"></span>about & contact</button>
+    </nav>
+    <div class="status"><span class="b">My Portfolio</span>  Last update: 28/9/2026<span class="cursor"></span></div>
+  </aside>
+
+  <main class="stage">
+
+    <section class="panel" id="panel-work" data-open="true">
+      <div class="map" id="map">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+          <line x1="74.1" y1="16.5" x2="76.4" y2="25.2" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+          <line x1="76.4" y1="25.2" x2="76.2" y2="35.6" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+          <line x1="76.2" y1="35.6" x2="76.4" y2="45.0" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+          <line x1="76.2" y1="35.6" x2="63.5" y2="32.6" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+          <line x1="63.5" y1="32.6" x2="58.4" y2="34.9" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+          <line x1="58.4" y1="34.9" x2="54.7" y2="39.5" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+          <line x1="54.7" y1="39.5" x2="46.3" y2="57.3" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+          <line x1="46.3" y1="57.3" x2="45.5" y2="68.1" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+          <line x1="45.5" y1="68.1" x2="44.3" y2="80.7" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+          <line x1="44.3" y1="80.7" x2="36.1" y2="83.7" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+          <line x1="36.1" y1="83.7" x2="23.6" y2="83.7" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+          <line x1="23.6" y1="83.7" x2="18.1" y2="76.4" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+          <line x1="18.1" y1="76.4" x2="20.2" y2="72.7" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+          <line x1="20.2" y1="72.7" x2="23.5" y2="65.9" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+          <line x1="23.5" y1="65.9" x2="25.6" y2="66.4" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+          <line x1="23.5" y1="65.9" x2="15.5" y2="67.4" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
+        </svg>
+        
+        <!-- Added unique images & a sample video file (.mp4) to the first three stars to show how it works -->
+        <button class="star big" style="top:15.5%;left:73.6%;--glow:#FF4FA0;--c1:#3E63C9;--c2:#E4508F" 
+          data-title="Smart Hydroponic Industrial System (SHIS)" data-meta="3D Modelling · FEA Analysis · Prototype" 
+          data-desc="My team and I developed a remote-controlled vertical hydroponic system that automatically refreshes the water within the system and transports the plants to ground level using a forklift. The system was designed to support farmers in adapting to the challenges of climate change. As identified from stress analysis, the design is structurally sound."
+          data-main="SHIS_1.mp4"
+          data-sub1="SHIS_2.png"
+          data-sub2="SHIS_3.png" 
+          data-sub3="SHIS_4.png">
+        </button>
+
+        <button class="star big" style="top:25.2%;left:75.8%;--glow:#C9A227;--c1:#E4508F;--c2:#C9A227" 
+          data-title="3D Printing" data-meta="3D modelling · TripoAI · Meshy · Bambu Lab" 
+          data-desc="I designed and developed custom 3D models using Meshy and Blender, refining each design from the initial concept to a finished digital model. I then brought these designs to life using Bambu Lab 3D printing, turning my digital creations into detailed physical models."
+          data-main="3D_printing_1.png"
+          data-sub1="3D_printing_2.png"
+          data-sub2="3D_printing_3.png"
+          data-sub3="3D_printing_4.png">
+        </button>
+
+
+        <button class="star big" style="top:45.0%;left:75.7%;--glow:#4FD8E8;--c1:#4FD8E8;--c2:#3E63C9" 
+          data-title="Training a Quadruped Robot in Simulation" data-meta="Mujoco · Reinforcement Learning · Robot Simulation · Python" 
+          data-desc="I used MuJoCo and Python to train the Unitree Go1 quadruped robot using reinforcement learning, allowing it to follow forward, backward, turning, and sideways movement commands while staying balanced. I trained a single control policy to produce a stable and smooth trot with coordinated joint movements, using only the sensor data available on the real Go1 robot. The project focused on developing a reliable simulation-based controller that could eventually be transferred from the virtual environment to the physical robot.."
+          data-main="Robot_Dog_1.mp4"
+          data-sub1="Robot_Dog_2.mp4"
+          data-sub2="Robot_Dog_3.png"
+          data-sub3="Robot_Dog_4.png">
+        </button>
+
+
+
+<button class="star big" style="top:33.5%;left:58.4%;--glow:#FF4FA0;--c1:#3E63C9;--c2:#E4508F" data-title="Autonomous Drone Navigation" data-meta="Autonomous robot · Unity · 3D Modelling" data-desc="I developed an autonomous drone for navigating hazardous cave environments and generating 3D cave maps in GPS-denied environments. I designed the navigation and obstacle avoidance system using LiDAR and secondary sensors, and evaluated its performance across different cave environments. The system achieved 100% success in most cases and successfully reconstructed 3D cave meshes while preserving key geological structures and formations." aria-pressed="true"
+          data-main="autonomous_drone_nav_1.mp4" data-sub1="autonomous_drone_nav_2.png" data-sub2="autonomous_drone_nav_3.png" data-sub3="autonomous_drone_nav_4.png"></button>
+        
+
+
+
+<!-- Research Publications: names only, no images, no description. Replace the titles in data-papers (separate with |) -->
+<button class="star big" style="top:55.8%;left:45.6%;--glow:#FF4FA0;--c1:#E4508F;--c2:#8A6E9E" data-title="Research Publications" data-meta="Research · Writing" data-desc="" data-papers="Shaari, A.H., Mohd Fairul Aswan, N.B.N. & Mohd Ali Piah, M.S. Linguistic manipulation and behavioural patterns of stalking: a case analysis in Malaysia. Humanit Soc Sci Commun (2026). https://doi.org/10.1057/s41599-026-08388-1
+|Embracing AI in Engineering Education: Acceptance and Effectiveness of AI Among Malaysian Engineering Undergraduates (2026, Review in Process)|Embracing Innovation: Acceptance and Effectiveness of AI as a Writing Tool Among Malaysian Undergraduates (2026, Review in Process)|CNN-Based Face Recognition on Robotic Platforms: A Systematic Literature Review of Evaluation Metrics (2026, Review in Process)|Simulation of an Aerial Autonomous Robot for Navigating Hazardous Cave Environments in Malaysia using Unity (2026)|Evaluating the Parameters That Affect the Growth of Lettuce in a Hydroponic System in Southeast Asian Countries (2025)|Design and Development of a Robotic Arm for Automated Handling of Hydroponic Plant Net Pots (2025)|Design and Development of a Robotic Arm for Efficient Tool Handling in Automated Workstations (2025)|The Relationship between Weather Parameters and the Efficiency of a Modified Solar Panel (2024)|Simple Weather Monitoring System (2021, International Future Science Conference)"></button>
+
+
+
+
+
+<button class="star" style="top:79.7%;left:43.9%;--glow:#4FD8E8;--c1:#3E63C9;--c2:#4FD8E8" data-title="Humanoid Robot Simulation in Isaac Sim" data-meta="Blender · Isaac Sim · ROS 2 · Robot Simulation" data-desc="During my internship at Guangxi University, China, I worked with Isaac Sim and ROS 2 to control and simulate humanoid robot models within a virtual environment. I explored ROS 2 integration with Isaac Sim to send movement commands to the simulated robots and better understand robot control and simulation workflows. I also designed simple 3D models using AutoCAD and Blender, imported them into Isaac Sim, and integrated them into the simulation for use with ROS 2-based robot control."
+          data-main="Isaac_Sim_1.png" data-sub1="Isaac_Sim_2.png" data-sub2="Isaac_Sim_3.png" data-sub3="Isaac_Sim_4.png"></button>
+
+
+
+
+
+<button class="star big" style="top:82.1%;left:36.1%;--glow:#4FD8E8;--c1:#3E63C9;--c2:#4FD8E8" data-title="Robotic Arm for Tool Handling" data-meta="3D Modelling · WeBots · Robot Simulation · Prototype · FEA Analysis" data-desc="I designed and developed a 6-DOF robotic arm prototype for automated tool and fastener handling in industrial workstations, focusing on improving the speed, accuracy, and flexibility of repetitive inventory tasks. I integrated adaptive grippers, an electromagnet, force sensors, load cells, relay modules, and a microcontroller to enable the system to detect items and handle tools of different sizes, shapes, and weights without manual reprogramming."
+          data-main="Robotic_Arm_1.mp4" data-sub1="Robotic_Arm_2.png" data-sub2="Robotic_Arm_3.png" data-sub3="Robotic_Arm_4.png"></button>
+
+
+
+
+
+<button class="star" style="top:83.1%;left:23.3%;--glow:#FF4FA0;--c1:#E4508F;--c2:#3E63C9" data-title="Robotic Arm for Plant Handling" data-meta="FEA Analysis · 3D Modelling · Circuit Design" data-desc="I designed and developed a robotic arm prototype to automate the picking, transportation, and repositioning of hydroponic plant net pots within a horizontal hydroponic system. I integrated a linear actuator, motorized arm, and soft gripper to achieve accurate and gentle handling while minimizing potential damage to the net pots, seedlings, and rockwool cubes. I evaluated the prototype based on handling accuracy, movement speed, and gripping efficiency, demonstrating the potential of robotic automation to improve consistency and reduce repetitive manual labor in hydroponic farming."
+          data-main="Robotic_Plant_1.png" data-sub1="Robotic_Plant_2.png" data-sub2="Robotic_Plant_3.png" data-sub3="Robotic_Plant_4.png"></button>
+
+
+
+
+<button class="star" style="top:66.1%;left:25.5%;--glow:#C9A227;--c1:#E4508F;--c2:#C9A227" data-title="24th International Astronomy Olympiad (IAO)" data-meta="Astronomy · Competition · Mathematics" data-desc="I participated in the 24th International Astronomy Olympiad in Piatra Neamț, Romania, in 2019 after progressing through several rounds of the Malaysian Astronomy Olympiad (MyAO). This experience gave me the opportunity to compete internationally and further develop my knowledge and interest in astronomy."
+          data-main="Myao_1.png" data-sub1="Myao_2.png" data-sub2="Myao_3.png" data-sub3="Myao_4.png"></button>
+ 
+
+
+<button class="star" style="top:66.8%;left:15.5%;--glow:#FF4FA0;--c1:#E4508F;--c2:#8A6E9E" data-title="Independent Creative Work" data-meta="Character Design · 2D Art · Character Building" data-desc="I create custom 2D character illustrations and digital designs based on individual client requests, adapting each piece to their preferred style, concept, and visual direction. This experience has allowed me to develop my skills in digital illustration, character design, and translating ideas into visual concepts while working independently. I manage the creative process from initial ideas and sketches through to the final artwork, ensuring each design reflects the client’s requirements."
+          data-main="" data-sub1="Character_Art_1.jpg" data-sub2="Character_Art_2.jpg" data-sub3="Character_Art_3.png"></button>
+
+      </div>
+      <div class="readout">
+        <div class="preview visual" id="r-preview" style="--glow:#FF4FA0;--c1:#3E63C9;--c2:#E4508F"></div>
+        <div class="text">
+          <span class="meta" id="r-meta">Projects I have completed</span>
+          <h3 id="r-title">Click on the stars!</h3>
+          <p id="r-desc">Click on each star on the constellation to find out about projects that I have done throughout the years.</p>
+        </div>
+        
+        <!-- Poem moved to the right side of the readout section -->
+        <div class="intro-poem">
+          Among countless stars in the night sky,<br>
+          Scorpio is the constellation tied to my birth.<br>
+          So, I made it part of where my story begins.
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW PROJECT DETAIL PANEL -->
+    <section class="panel" id="panel-project">
+      <button class="back-btn" id="btn-back"><span>←</span> back to main menu</button>
+      
+      <div class="project-layout">
+        <!-- Top Row: Text on the left, Big Image on the right -->
+        <div class="project-top-row">
+          <div class="project-text-content">
+            <h2 id="p-title">Project Title</h2>
+            <p class="bio" id="p-desc">Project description goes here.</p>
+            <div class="skills" id="p-tags">
+              <!-- Tags will be dynamically injected here -->
+            </div>
+          </div>
+          
+          <div class="gallery-main" id="media-slot-main">
+            <!-- Media gets injected here by JS -->
+          </div>
+        </div>
+
+        <!-- Research Publications: names only (filled by JS) -->
+        <ul class="paper-list" id="p-papers"></ul>
+
+        <!-- Bottom Row: 3 Little Images in a line -->
+        <div class="gallery-bottom-row">
+          <div class="gallery-sub" id="media-slot-sub1">
+             <!-- Media gets injected here by JS -->
+          </div>
+          <div class="gallery-sub" id="media-slot-sub2">
+             <!-- Media gets injected here by JS -->
+          </div>
+          <div class="gallery-sub" id="media-slot-sub3">
+             <!-- Media gets injected here by JS -->
+          </div>
+        </div>
+
+        <!-- Dynamic Caption -->
+        <p class="gallery-caption" id="p-media-desc">Visual documentation of <span class="hl">system architecture</span> and structural components.</p>
+      </div>
+
+    </section>
+
+    <!-- COMBINED ABOUT & CONTACT PANEL -->
+    <section class="panel" id="panel-about">
+      <h2 class="contact-h2">Contact Me ✦</h2>
+      <div class="console">
+        <div><span class="p">&gt;</span> email: <a href="mailto:baneen.natasya@gmail.com">baneen.natasya@gmail.com</a></div>
+        <div><span class="p">&gt;</span> instagram: <a href="https://www.instagram.com/baneen_natasya" target="_blank" rel="noopener noreferrer">@baneen_natasya</a></div>
+        <div><span class="p">&gt;</span> phone: <a href="tel:+601133450517">+601133450517</a></div>
+        <div><span class="p">&gt;</span> linkedin: <a href="https://www.linkedin.com/in/baneennatasya" target="_blank" rel="noopener noreferrer">Nur Baneen Natasya</a></div>
+      </div>
+
+      <div class="about-container">
+        <!-- The requested 481 x 781 dimension structure -->
+        <img src="Profile_Picture.jpg" alt="Nur Baneen Natasya" class="profile-photo">
+        
+        <div class="personal-details">
+          <h2>Identity</h2>
+          <div class="console" style="margin-bottom: 30px;">
+            <div><span class="p">&gt;</span> Name: Nur Baneen Natasya Binti Mohd Fairul Aswan</div>
+            <div><span class="p">&gt;</span> Date of Birth: 17/11/2004</div>
+            <div><span class="p">&gt;</span> Degree: Bachelor of Mechanical Engineering with Honours</div>
+            <div><span class="p">&gt;</span> Home address: No. 48, Jalan Ecohill 7/2C, Setia Ecohill 2,<br>&nbsp;&nbsp;43500, Semenyih, Selangor</div>
+            <div><span class="p">&gt;</span> Driving Licence: Class D (Automatic)</div>
+          </div>
+
+          <div class="togglewrap">
+            <div class="toggle" id="bioToggle" data-state="artist" role="switch" aria-checked="false" tabindex="0" aria-label="Switch bio voice"><div class="knob"></div></div>
+            <div class="togglelabels"><span class="on" id="lbl-artist">artist</span><span id="lbl-engineer">engineer</span></div>
+          </div>
+          <h2 id="bio-h">Where Technology Meets Creativity</h2>
+          <p class="bio" id="bio-p">Art allows me to express ideas through drawing, design, and creative work. It gives me a different way to explore ideas, experiment with visual concepts, and bring creativity into the way I approach problems.</p>
+          <div class="skills">
+            <span>Game Development</span><span>Mechatronics</span><span>3D Modelling</span>
+            <span>Robotics</span><span>3D Modeling</span><span>Digital Art</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+// tab nav
+const btns=document.querySelectorAll('#nav button');
+const panels={work:document.getElementById('panel-work'),about:document.getElementById('panel-about'), project:document.getElementById('panel-project')};
+
+btns.forEach(b=>b.addEventListener('click',()=>{
+  btns.forEach(x=>x.setAttribute('aria-current','false'));
+  b.setAttribute('aria-current','true');
+  Object.values(panels).forEach(p=>p.setAttribute('data-open','false'));
+  panels[b.dataset.panel].setAttribute('data-open','true');
+  document.title = "Nur Baneen Natasya's Portfolio"; 
+}));
+
+// Helper function to turn URLs into Images or Videos seamlessly
+function createMediaElement(url) {
+  if (!url) return '';
+  // Check if the link ends in standard video formats
+  if (url.match(/\.(mp4|webm|ogg)$/i) || url.includes("video")) {
+    return `<video src="${url}" autoplay loop muted playsinline></video>`;
+  }
+  return `<img src="${url}" alt="Project Visual">`;
+}
+
+// star map
+const stars=document.querySelectorAll('.star');
+const preview=document.getElementById('r-preview');
+
+stars.forEach(s=>s.addEventListener('click',()=>{
+  stars.forEach(x=>x.setAttribute('aria-pressed','false'));
+  s.setAttribute('aria-pressed','true');
+  
+  // Note: The text updating logic for r-title, r-meta, and r-desc has been removed 
+  // so the text remains "Click on the stars!" as requested.
+  
+  const cs=getComputedStyle(s);
+  preview.style.setProperty('--glow',cs.getPropertyValue('--glow'));
+  preview.style.setProperty('--c1',cs.getPropertyValue('--c1'));
+  preview.style.setProperty('--c2',cs.getPropertyValue('--c2'));
+  
+  // Injects the media preview instead of clearing the content 
+  if(s.dataset.kind==='code'){
+    preview.className='preview code';
+    preview.innerHTML=s.dataset.code;
+  }else{
+    preview.className='preview visual';
+    preview.innerHTML=createMediaElement(s.dataset.main);
+  }
+  
+  // POPULATE THE NEW PROJECT PANEL TEXT
+  document.getElementById('p-title').textContent = s.dataset.title;
+  document.getElementById('p-desc').textContent = s.dataset.desc;
+  
+  // POPULATE THE IMAGES & VIDEOS
+  // Reads the links stored directly in the button HTML
+  document.getElementById('media-slot-main').innerHTML = createMediaElement(s.dataset.main);
+  document.getElementById('media-slot-sub1').innerHTML = createMediaElement(s.dataset.sub1);
+  document.getElementById('media-slot-sub2').innerHTML = createMediaElement(s.dataset.sub2);
+  document.getElementById('media-slot-sub3').innerHTML = createMediaElement(s.dataset.sub3);
+  
+  // Update browser tab title dynamically
+  document.title = s.dataset.title + " | Nur Baneen Natasya";
+  
+  // Dynamically update the media caption based on the project title clicked
+  document.getElementById('p-media-desc').innerHTML = `Visual documentation and architecture for <span class="hl">${s.dataset.title}</span>.`;
+  
+  // Take the data-meta string and split it into neat tags
+  const metaTags = s.dataset.meta.split(' · ');
+  document.getElementById('p-tags').innerHTML = metaTags.map(tag => `<span>${tag}</span>`).join('');
+  
+  // Research Publications: show names only
+  const isPapers = !!s.dataset.papers;
+  document.querySelector('.project-layout').classList.toggle('papers-mode', isPapers);
+  document.getElementById('p-papers').innerHTML = isPapers
+    ? s.dataset.papers.split('|').map(t => `<li>${t.trim()}</li>`).join('')
+    : '';
+  
+  // Independent Creative Work Layout Customization
+  const isCreative = s.dataset.title === "Independent Creative Work";
+  document.querySelector('.project-layout').classList.toggle('creative-mode', isCreative);
+  
+  // OPEN THE NEW PANEL
+  Object.values(panels).forEach(p=>p.setAttribute('data-open','false'));
+  panels.project.setAttribute('data-open','true');
+}));
+
+// Back button logic to return to the star map
+document.getElementById('btn-back').addEventListener('click', () => {
+  panels.project.setAttribute('data-open','false');
+  panels.work.setAttribute('data-open','true');
+  document.title = "Nur Baneen Natasya's Portfolio"; // Reset browser title
+});
+
+// bio toggle
+const bios={
+  artist:{h:"Where Technology Meets Creativity",p:"Art allows me to express ideas through drawing, design, and creative work. It gives me a different way to explore ideas, experiment with visual concepts, and bring creativity into the way I approach problems."},
+  engineer:{h:"Where Technology Meets Creativity",p:"Engineering allows me to design and develop practical solutions to real-life problems, particularly through robotics, simulation, and engineering design. I enjoy understanding how things work and turning ideas into functional systems."}
+};
+const tg=document.getElementById('bioToggle');
+function setBio(state){
+  tg.dataset.state=state;
+  tg.setAttribute('aria-checked', state==='engineer');
+  document.getElementById('lbl-artist').classList.toggle('on',state==='artist');
+  document.getElementById('lbl-engineer').classList.toggle('on',state==='engineer');
+  document.getElementById('bio-h').textContent=bios[state].h;
+  // ONLY bolds the first word ("Art" or "Engineering") instead of the first two
+  document.getElementById('bio-p').innerHTML=bios[state].p.replace(/^(\w+)/,'<strong>$1</strong>');
+}
+tg.addEventListener('click',()=>setBio(tg.dataset.state==='artist'?'engineer':'artist'));
+tg.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tg.click()}});
+
+// Initialize default state
+setBio('artist');
+</script>
+</body>
+</html>
