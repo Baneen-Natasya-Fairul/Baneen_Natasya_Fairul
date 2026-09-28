@@ -613,6 +613,7 @@ btns.forEach(b=>b.addEventListener('click',()=>{
   Object.values(panels).forEach(p=>p.setAttribute('data-open','false'));
   panels[b.dataset.panel].setAttribute('data-open','true');
   document.title = "Nur Baneen Natasya's Portfolio"; 
+  window.scrollTo(0, 0); // Scroll back to top on tab switch
 }));
 
 // Helper function to turn URLs into Images or Videos seamlessly
@@ -633,15 +634,11 @@ stars.forEach(s=>s.addEventListener('click',()=>{
   stars.forEach(x=>x.setAttribute('aria-pressed','false'));
   s.setAttribute('aria-pressed','true');
   
-  // Note: The text updating logic for r-title, r-meta, and r-desc has been removed 
-  // so the text remains "Click on the stars!" as requested.
-  
   const cs=getComputedStyle(s);
   preview.style.setProperty('--glow',cs.getPropertyValue('--glow'));
   preview.style.setProperty('--c1',cs.getPropertyValue('--c1'));
   preview.style.setProperty('--c2',cs.getPropertyValue('--c2'));
   
-  // Injects the media preview instead of clearing the content 
   if(s.dataset.kind==='code'){
     preview.className='preview code';
     preview.innerHTML=s.dataset.code;
@@ -650,48 +647,42 @@ stars.forEach(s=>s.addEventListener('click',()=>{
     preview.innerHTML=createMediaElement(s.dataset.main);
   }
   
-  // POPULATE THE NEW PROJECT PANEL TEXT
   document.getElementById('p-title').textContent = s.dataset.title;
   document.getElementById('p-desc').textContent = s.dataset.desc;
   
-  // POPULATE THE IMAGES & VIDEOS
-  // Reads the links stored directly in the button HTML
   document.getElementById('media-slot-main').innerHTML = createMediaElement(s.dataset.main);
   document.getElementById('media-slot-sub1').innerHTML = createMediaElement(s.dataset.sub1);
   document.getElementById('media-slot-sub2').innerHTML = createMediaElement(s.dataset.sub2);
   document.getElementById('media-slot-sub3').innerHTML = createMediaElement(s.dataset.sub3);
   
-  // Update browser tab title dynamically
   document.title = s.dataset.title + " | Nur Baneen Natasya";
   
-  // Dynamically update the media caption based on the project title clicked
   document.getElementById('p-media-desc').innerHTML = `Visual documentation and architecture for <span class="hl">${s.dataset.title}</span>.`;
   
-  // Take the data-meta string and split it into neat tags
   const metaTags = s.dataset.meta.split(' · ');
   document.getElementById('p-tags').innerHTML = metaTags.map(tag => `<span>${tag}</span>`).join('');
   
-  // Research Publications: show names only
   const isPapers = !!s.dataset.papers;
   document.querySelector('.project-layout').classList.toggle('papers-mode', isPapers);
   document.getElementById('p-papers').innerHTML = isPapers
     ? s.dataset.papers.split('|').map(t => `<li>${t.trim()}</li>`).join('')
     : '';
   
-  // Independent Creative Work Layout Customization
   const isCreative = s.dataset.title === "Independent Creative Work";
   document.querySelector('.project-layout').classList.toggle('creative-mode', isCreative);
   
   // OPEN THE NEW PANEL
   Object.values(panels).forEach(p=>p.setAttribute('data-open','false'));
   panels.project.setAttribute('data-open','true');
+  window.scrollTo(0, 0); // Scroll back to top when opening a project
 }));
 
 // Back button logic to return to the star map
 document.getElementById('btn-back').addEventListener('click', () => {
   panels.project.setAttribute('data-open','false');
   panels.work.setAttribute('data-open','true');
-  document.title = "Nur Baneen Natasya's Portfolio"; // Reset browser title
+  document.title = "Nur Baneen Natasya's Portfolio"; 
+  window.scrollTo(0, 0); // Scroll back to top when going back to map
 });
 
 // bio toggle
@@ -706,7 +697,6 @@ function setBio(state){
   document.getElementById('lbl-artist').classList.toggle('on',state==='artist');
   document.getElementById('lbl-engineer').classList.toggle('on',state==='engineer');
   document.getElementById('bio-h').textContent=bios[state].h;
-  // ONLY bolds the first word ("Art" or "Engineering") instead of the first two
   document.getElementById('bio-p').innerHTML=bios[state].p.replace(/^(\w+)/,'<strong>$1</strong>');
 }
 tg.addEventListener('click',()=>setBio(tg.dataset.state==='artist'?'engineer':'artist'));
