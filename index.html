@@ -326,7 +326,7 @@ nav button[aria-current="true"] .dot{background:var(--hot);opacity:1;box-shadow:
   }
 }
 
-/* --- MOBILE FIX: True Document Flow & No Star Overlap --- */
+/* --- MOBILE FIX: True Document Flow & No Invisible Overlap --- */
 @media (max-width:760px){
   body{height:auto;overflow:visible}
   .app{flex-direction:column;height:auto}
@@ -335,14 +335,25 @@ nav button[aria-current="true"] .dot{background:var(--hot);opacity:1;box-shadow:
   .status{display:none}
 
   .stage{position:relative;height:auto !important;min-height:unset !important;overflow:visible !important;}
-  .panel{position:relative !important;inset:unset !important;padding:30px 22px;overflow-y:visible !important;height:auto !important;}
   
-  #panel-work {
-    padding: 0 !important;
-    display: block !important;
-    overflow-y: visible !important;
-    height: auto !important;
+  /* Hides inactive panels from the DOM completely on mobile */
+  .panel {
+    position:relative !important;
+    inset:unset !important;
+    padding:30px 22px !important;
+    overflow-y:visible !important;
+    height:auto !important;
+    display: none !important; 
   }
+  /* Only shows the active panel */
+  .panel[data-open="true"] {
+    display: block !important;
+  }
+  /* Removes padding just for the starmap when it's open */
+  #panel-work[data-open="true"] {
+    padding: 0 !important;
+  }
+  
   .map {
     position: relative !important;
     width: 100% !important;
