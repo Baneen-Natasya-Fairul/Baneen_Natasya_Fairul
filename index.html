@@ -421,6 +421,20 @@ nav button[aria-current="true"] .dot{background:var(--hot);opacity:1;box-shadow:
     height: 480px !important;
     min-height: 480px !important;
   }
+  
+  /* --- HIDE TITLES ON MOBILE, KEEP ONLY "CLICK ME" --- */
+  .star .label .t {
+    display: none !important;
+  }
+  .star .label {
+    top: 32px !important;
+    bottom: auto !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    text-align: center !important;
+  }
+
   .readout {
     position: relative !important;
     bottom: auto !important;
