@@ -274,11 +274,23 @@ nav button[aria-current="true"] .dot{background:var(--hot);opacity:1;box-shadow:
 
 /* project panel specific */
 .back-btn{
-  all:unset;cursor:pointer;font-family:inherit;font-size:12px;color:var(--cyan);
-  display:inline-flex;align-items:center;gap:6px;margin-bottom:30px;
-  transition:color .2s ease;
+  all:unset;cursor:pointer;font-family:inherit;font-size:18px;color:var(--ink);
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  margin: 60px auto 20px; /* Centers it and adds large gap above */
+  padding: 18px 40px;
+  background: rgba(79, 216, 232, 0.1);
+  border: 1px solid var(--cyan);
+  border-radius: 50px;
+  transition:all .3s ease;
+  font-weight: 500;
+  width: fit-content;
 }
-.back-btn:hover{color:var(--hot)}
+.back-btn:hover{
+  background: var(--cyan);
+  color: var(--deep);
+  box-shadow: 0 0 20px rgba(79, 216, 232, 0.4);
+  transform: scale(1.02);
+}
 
 /* ---- NEW PROJECT LAYOUT & GALLERY STYLES ---- */
 .project-layout {
@@ -597,7 +609,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offse
 
     <!-- NEW PROJECT DETAIL PANEL -->
     <section class="panel" id="panel-project">
-      <button class="back-btn" id="btn-back"><span>←</span> back to main menu</button>
       
       <div class="project-layout">
         <!-- Top Row: Text on the left, Big Image on the right -->
@@ -634,6 +645,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offse
         <!-- Dynamic Caption -->
         <p class="gallery-caption" id="p-media-desc">Visual documentation of <span class="hl">system architecture</span> and structural components.</p>
       </div>
+
+      <!-- HUGE BACK BUTTON AT THE BOTTOM -->
+      <button class="back-btn" id="btn-back"><span>←</span> Back to Map</button>
 
     </section>
 
