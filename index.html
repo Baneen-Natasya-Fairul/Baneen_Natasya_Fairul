@@ -119,19 +119,42 @@ nav button[aria-current="true"] .dot{background:var(--hot);opacity:1;box-shadow:
 }
 
 .map{position:relative;width:100%;height:calc(100% - 170px);min-height:350px}
+
+/* ---- STAR SHAPES & GLOW ---- */
 .star{
-  position:absolute;width:10px;height:10px;border-radius:50%;cursor:pointer;
-  background:radial-gradient(circle at 35% 30%,#fff,var(--glow,var(--hot)) 60%,transparent 75%);
-  box-shadow:0 0 12px 1.5px var(--glow,var(--hot));border:none;padding:0;
+  position:absolute;
+  width:24px;
+  height:24px;
+  cursor:pointer;
+  background:transparent;
+  border:none;
+  padding:0;
   transition:transform .2s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-.star.big{width:20px;height:20px;box-shadow:0 0 22px 4px var(--glow,var(--hot))}
-.star:hover,.star:focus-visible{transform:scale(1.6)}
-.star[aria-pressed="true"]{transform:scale(1.9)}
+.star:hover,.star:focus-visible{transform:scale(1.4)}
+.star[aria-pressed="true"]{transform:scale(1.6)}
+
+.star-glow {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 8px var(--glow,var(--hot)));
+}
+
+.star-shape {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, #fff 0%, var(--glow,var(--hot)) 70%);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
 .star .label{
-  position:absolute;top:20px;left:50%;transform:translateX(-50%);white-space:nowrap;
+  position:absolute;top:32px;left:50%;transform:translateX(-50%);white-space:nowrap;
   font-size:10.5px;color:var(--muted);pointer-events:none;
 }
+
 .readout{
   position:absolute;left:0;right:0;bottom:0;padding:26px 56px 34px;
   display:flex;gap:22px;align-items:flex-end;
@@ -428,7 +451,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offse
           <line x1="23.5" y1="65.9" x2="15.5" y2="67.4" stroke="#9089AD" stroke-width="0.18" opacity="0.4"/>
         </svg>
         
-        <!-- Added unique images & a sample video file (.mp4) to the first three stars to show how it works -->
         <button class="star big" style="top:15.5%;left:73.6%;--glow:#FF4FA0;--c1:#3E63C9;--c2:#E4508F" 
           data-title="Smart Hydroponic Industrial System (SHIS)" data-meta="3D Modelling · FEA Analysis · Prototype" 
           data-desc="My team and I developed a remote-controlled vertical hydroponic system that automatically refreshes the water within the system and transports the plants to ground level using a forklift. The system was designed to support farmers in adapting to the challenges of climate change. As identified from stress analysis, the design is structurally sound."
@@ -436,6 +458,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offse
           data-sub1="SHIS_2.png"
           data-sub2="SHIS_3.png" 
           data-sub3="SHIS_4.png">
+          <div class="star-glow"><div class="star-shape"></div></div>
+          <span class="label">click me</span>
         </button>
 
         <button class="star big" style="top:25.2%;left:75.8%;--glow:#C9A227;--c1:#E4508F;--c2:#C9A227" 
@@ -445,65 +469,65 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offse
           data-sub1="3D_printing_2.png"
           data-sub2="3D_printing_3.png"
           data-sub3="3D_printing_4.png">
+          <div class="star-glow"><div class="star-shape"></div></div>
+          <span class="label">click me</span>
         </button>
 
-
-        <button class="star big" style="top:45.0%;left:75.7%;--glow:#4FD8E8;--c1:#4FD8E8;--c2:#3E63C9" 
+        <button class="star big" style="top:44.4%;left:75.7%;--glow:#4FD8E8;--c1:#4FD8E8;--c2:#3E63C9" 
           data-title="Training a Quadruped Robot in Simulation" data-meta="Mujoco · Reinforcement Learning · Robot Simulation · Python" 
           data-desc="I used MuJoCo and Python to train the Unitree Go1 quadruped robot using reinforcement learning, allowing it to follow forward, backward, turning, and sideways movement commands while staying balanced. I trained a single control policy to produce a stable and smooth trot with coordinated joint movements, using only the sensor data available on the real Go1 robot. The project focused on developing a reliable simulation-based controller that could eventually be transferred from the virtual environment to the physical robot.."
           data-main="Robot_Dog_1.mp4"
           data-sub1="Robot_Dog_2.mp4"
           data-sub2="Robot_Dog_3.png"
           data-sub3="Robot_Dog_4.png">
+          <div class="star-glow"><div class="star-shape"></div></div>
+          <span class="label">click me</span>
         </button>
 
-
-
-<button class="star big" style="top:33.5%;left:58.4%;--glow:#FF4FA0;--c1:#3E63C9;--c2:#E4508F" data-title="Autonomous Drone Navigation" data-meta="Autonomous robot · Unity · 3D Modelling" data-desc="I developed an autonomous drone for navigating hazardous cave environments and generating 3D cave maps in GPS-denied environments. I designed the navigation and obstacle avoidance system using LiDAR and secondary sensors, and evaluated its performance across different cave environments. The system achieved 100% success in most cases and successfully reconstructed 3D cave meshes while preserving key geological structures and formations." aria-pressed="true"
-          data-main="autonomous_drone_nav_1.mp4" data-sub1="autonomous_drone_nav_2.png" data-sub2="autonomous_drone_nav_3.png" data-sub3="autonomous_drone_nav_4.png"></button>
+        <button class="star big" style="top:33.5%;left:58.4%;--glow:#FF4FA0;--c1:#3E63C9;--c2:#E4508F" data-title="Autonomous Drone Navigation" data-meta="Autonomous robot · Unity · 3D Modelling" data-desc="I developed an autonomous drone for navigating hazardous cave environments and generating 3D cave maps in GPS-denied environments. I designed the navigation and obstacle avoidance system using LiDAR and secondary sensors, and evaluated its performance across different cave environments. The system achieved 100% success in most cases and successfully reconstructed 3D cave meshes while preserving key geological structures and formations." aria-pressed="true"
+          data-main="autonomous_drone_nav_1.mp4" data-sub1="autonomous_drone_nav_2.png" data-sub2="autonomous_drone_nav_3.png" data-sub3="autonomous_drone_nav_4.png">
+          <div class="star-glow"><div class="star-shape"></div></div>
+          <span class="label">click me</span>
+        </button>
         
+        <button class="star big" style="top:55.8%;left:45.6%;--glow:#FF4FA0;--c1:#E4508F;--c2:#8A6E9E" data-title="Research Publications" data-meta="Research · Writing" data-desc="" data-papers="Shaari, A.H., Mohd Fairul Aswan, N.B.N. & Mohd Ali Piah, M.S. Linguistic manipulation and behavioural patterns of stalking: a case analysis in Malaysia. Humanit Soc Sci Commun (2026). https://doi.org/10.1057/s41599-026-08388-1
+|Embracing AI in Engineering Education: Acceptance and Effectiveness of AI Among Malaysian Engineering Undergraduates (2026, Review in Process)|Embracing Innovation: Acceptance and Effectiveness of AI as a Writing Tool Among Malaysian Undergraduates (2026, Review in Process)|CNN-Based Face Recognition on Robotic Platforms: A Systematic Literature Review of Evaluation Metrics (2026, Review in Process)|Simulation of an Aerial Autonomous Robot for Navigating Hazardous Cave Environments in Malaysia using Unity (2026)|Evaluating the Parameters That Affect the Growth of Lettuce in a Hydroponic System in Southeast Asian Countries (2025)|Design and Development of a Robotic Arm for Automated Handling of Hydroponic Plant Net Pots (2025)|Design and Development of a Robotic Arm for Efficient Tool Handling in Automated Workstations (2025)|The Relationship between Weather Parameters and the Efficiency of a Modified Solar Panel (2024)|Simple Weather Monitoring System (2021, International Future Science Conference)">
+          <div class="star-glow"><div class="star-shape"></div></div>
+          <span class="label">click me</span>
+        </button>
 
+        <button class="star big" style="top:79.1%;left:43.2%;--glow:#4FD8E8;--c1:#3E63C9;--c2:#4FD8E8" data-title="Humanoid Robot Simulation in Isaac Sim" data-meta="Blender · Isaac Sim · ROS 2 · Robot Simulation" data-desc="During my internship at Guangxi University, China, I worked with Isaac Sim and ROS 2 to control and simulate humanoid robot models within a virtual environment. I explored ROS 2 integration with Isaac Sim to send movement commands to the simulated robots and better understand robot control and simulation workflows. I also designed simple 3D models using AutoCAD and Blender, imported them into Isaac Sim, and integrated them into the simulation for use with ROS 2-based robot control."
+          data-main="Isaac_Sim_1.png" data-sub1="Isaac_Sim_2.png" data-sub2="Isaac_Sim_3.png" data-sub3="Isaac_Sim_4.png">
+          <div class="star-glow"><div class="star-shape"></div></div>
+          <span class="label">click me</span>
+        </button>
 
+        <button class="star big" style="top:81.4%;left:36.1%;--glow:#4FD8E8;--c1:#3E63C9;--c2:#4FD8E8" data-title="Robotic Arm for Tool Handling" data-meta="3D Modelling · WeBots · Robot Simulation · Prototype · FEA Analysis" data-desc="I designed and developed a 6-DOF robotic arm prototype for automated tool and fastener handling in industrial workstations, focusing on improving the speed, accuracy, and flexibility of repetitive inventory tasks. I integrated adaptive grippers, an electromagnet, force sensors, load cells, relay modules, and a microcontroller to enable the system to detect items and handle tools of different sizes, shapes, and weights without manual reprogramming."
+          data-main="Robotic_Arm_1.mp4" data-sub1="Robotic_Arm_2.png" data-sub2="Robotic_Arm_3.png" data-sub3="Robotic_Arm_4.png">
+          <div class="star-glow"><div class="star-shape"></div></div>
+          <span class="label">click me</span>
+        </button>
 
+        <button class="star big" style="top:82.3%;left:22.6%;--glow:#FF4FA0;--c1:#E4508F;--c2:#3E63C9" data-title="Robotic Arm for Plant Handling" data-meta="FEA Analysis · 3D Modelling · Circuit Design" data-desc="I designed and developed a robotic arm prototype to automate the picking, transportation, and repositioning of hydroponic plant net pots within a horizontal hydroponic system. I integrated a linear actuator, motorized arm, and soft gripper to achieve accurate and gentle handling while minimizing potential damage to the net pots, seedlings, and rockwool cubes. I evaluated the prototype based on handling accuracy, movement speed, and gripping efficiency, demonstrating the potential of robotic automation to improve consistency and reduce repetitive manual labor in hydroponic farming."
+          data-main="Robotic_Plant_1.png" data-sub1="Robotic_Plant_2.png" data-sub2="Robotic_Plant_3.png" data-sub3="Robotic_Plant_4.png">
+          <div class="star-glow"><div class="star-shape"></div></div>
+          <span class="label">click me</span>
+        </button>
 
-<button class="star big" style="top:55.8%;left:45.6%;--glow:#FF4FA0;--c1:#E4508F;--c2:#8A6E9E" data-title="Research Publications" data-meta="Research · Writing" data-desc="" data-papers="Shaari, A.H., Mohd Fairul Aswan, N.B.N. & Mohd Ali Piah, M.S. Linguistic manipulation and behavioural patterns of stalking: a case analysis in Malaysia. Humanit Soc Sci Commun (2026). https://doi.org/10.1057/s41599-026-08388-1
-|Embracing AI in Engineering Education: Acceptance and Effectiveness of AI Among Malaysian Engineering Undergraduates (2026, Review in Process)|Embracing Innovation: Acceptance and Effectiveness of AI as a Writing Tool Among Malaysian Undergraduates (2026, Review in Process)|CNN-Based Face Recognition on Robotic Platforms: A Systematic Literature Review of Evaluation Metrics (2026, Review in Process)|Simulation of an Aerial Autonomous Robot for Navigating Hazardous Cave Environments in Malaysia using Unity (2026)|Evaluating the Parameters That Affect the Growth of Lettuce in a Hydroponic System in Southeast Asian Countries (2025)|Design and Development of a Robotic Arm for Automated Handling of Hydroponic Plant Net Pots (2025)|Design and Development of a Robotic Arm for Efficient Tool Handling in Automated Workstations (2025)|The Relationship between Weather Parameters and the Efficiency of a Modified Solar Panel (2024)|Simple Weather Monitoring System (2021, International Future Science Conference)"></button>
+        <button class="star big" style="top:65.1%;left:25.0%;--glow:#C9A227;--c1:#E4508F;--c2:#C9A227" data-title="24th International Astronomy Olympiad (IAO)" data-meta="Astronomy · Competition · Mathematics" data-desc="I participated in the 24th International Astronomy Olympiad in Piatra Neamț, Romania, in 2019 after progressing through several rounds of the Malaysian Astronomy Olympiad (MyAO). This experience gave me the opportunity to compete internationally and further develop my knowledge and interest in astronomy."
+          data-main="Myao_1.png" data-sub1="Myao_2.png" data-sub2="Myao_3.png" data-sub3="Myao_4.png">
+          <div class="star-glow"><div class="star-shape"></div></div>
+          <span class="label">click me</span>
+        </button>
 
-
-
-
-
-<button class="star" style="top:79.7%;left:43.9%;--glow:#4FD8E8;--c1:#3E63C9;--c2:#4FD8E8" data-title="Humanoid Robot Simulation in Isaac Sim" data-meta="Blender · Isaac Sim · ROS 2 · Robot Simulation" data-desc="During my internship at Guangxi University, China, I worked with Isaac Sim and ROS 2 to control and simulate humanoid robot models within a virtual environment. I explored ROS 2 integration with Isaac Sim to send movement commands to the simulated robots and better understand robot control and simulation workflows. I also designed simple 3D models using AutoCAD and Blender, imported them into Isaac Sim, and integrated them into the simulation for use with ROS 2-based robot control."
-          data-main="Isaac_Sim_1.png" data-sub1="Isaac_Sim_2.png" data-sub2="Isaac_Sim_3.png" data-sub3="Isaac_Sim_4.png"></button>
-
-
-
-
-
-<button class="star big" style="top:82.1%;left:36.1%;--glow:#4FD8E8;--c1:#3E63C9;--c2:#4FD8E8" data-title="Robotic Arm for Tool Handling" data-meta="3D Modelling · WeBots · Robot Simulation · Prototype · FEA Analysis" data-desc="I designed and developed a 6-DOF robotic arm prototype for automated tool and fastener handling in industrial workstations, focusing on improving the speed, accuracy, and flexibility of repetitive inventory tasks. I integrated adaptive grippers, an electromagnet, force sensors, load cells, relay modules, and a microcontroller to enable the system to detect items and handle tools of different sizes, shapes, and weights without manual reprogramming."
-          data-main="Robotic_Arm_1.mp4" data-sub1="Robotic_Arm_2.png" data-sub2="Robotic_Arm_3.png" data-sub3="Robotic_Arm_4.png"></button>
-
-
-
-
-
-<button class="star" style="top:83.1%;left:23.3%;--glow:#FF4FA0;--c1:#E4508F;--c2:#3E63C9" data-title="Robotic Arm for Plant Handling" data-meta="FEA Analysis · 3D Modelling · Circuit Design" data-desc="I designed and developed a robotic arm prototype to automate the picking, transportation, and repositioning of hydroponic plant net pots within a horizontal hydroponic system. I integrated a linear actuator, motorized arm, and soft gripper to achieve accurate and gentle handling while minimizing potential damage to the net pots, seedlings, and rockwool cubes. I evaluated the prototype based on handling accuracy, movement speed, and gripping efficiency, demonstrating the potential of robotic automation to improve consistency and reduce repetitive manual labor in hydroponic farming."
-          data-main="Robotic_Plant_1.png" data-sub1="Robotic_Plant_2.png" data-sub2="Robotic_Plant_3.png" data-sub3="Robotic_Plant_4.png"></button>
-
-
-
-
-<button class="star" style="top:66.1%;left:25.5%;--glow:#C9A227;--c1:#E4508F;--c2:#C9A227" data-title="24th International Astronomy Olympiad (IAO)" data-meta="Astronomy · Competition · Mathematics" data-desc="I participated in the 24th International Astronomy Olympiad in Piatra Neamț, Romania, in 2019 after progressing through several rounds of the Malaysian Astronomy Olympiad (MyAO). This experience gave me the opportunity to compete internationally and further develop my knowledge and interest in astronomy."
-          data-main="Myao_1.png" data-sub1="Myao_2.png" data-sub2="Myao_3.png" data-sub3="Myao_4.png"></button>
- 
-
-
-<button class="star" style="top:66.8%;left:15.5%;--glow:#FF4FA0;--c1:#E4508F;--c2:#8A6E9E" data-title="Independent Creative Work" data-meta="Character Design · 2D Art · Character Building" data-desc="I create custom 2D character illustrations and digital designs based on individual client requests, adapting each piece to their preferred style, concept, and visual direction. This experience has allowed me to develop my skills in digital illustration, character design, and translating ideas into visual concepts while working independently. I manage the creative process from initial ideas and sketches through to the final artwork, ensuring each design reflects the client’s requirements."
-          data-main="" data-sub1="Character_Art_1.jpg" data-sub2="Character_Art_2.jpg" data-sub3="Character_Art_3.jpg"></button>
+        <button class="star big" style="top:65.8%;left:14.5%;--glow:#FF4FA0;--c1:#E4508F;--c2:#8A6E9E" data-title="Independent Creative Work" data-meta="Character Design · 2D Art · Character Building" data-desc="I create custom 2D character illustrations and digital designs based on individual client requests, adapting each piece to their preferred style, concept, and visual direction. This experience has allowed me to develop my skills in digital illustration, character design, and translating ideas into visual concepts while working independently. I manage the creative process from initial ideas and sketches through to the final artwork, ensuring each design reflects the client’s requirements."
+          data-main="" data-sub1="Character_Art_1.jpg" data-sub2="Character_Art_2.jpg" data-sub3="Character_Art_3.jpg">
+          <div class="star-glow"><div class="star-shape"></div></div>
+          <span class="label">click me</span>
+        </button>
 
       </div>
       <div class="readout">
-        <div class="preview visual" id="r-preview" style="--glow:#FF4FA0;--c1:#3E63C9;--c2:#E4508F"></div>
         <div class="text">
           <span class="meta" id="r-meta">Projects I have completed</span>
           <h3 id="r-title">Click on the stars!</h3>
@@ -628,24 +652,10 @@ function createMediaElement(url) {
 
 // star map
 const stars=document.querySelectorAll('.star');
-const preview=document.getElementById('r-preview');
 
 stars.forEach(s=>s.addEventListener('click',()=>{
   stars.forEach(x=>x.setAttribute('aria-pressed','false'));
   s.setAttribute('aria-pressed','true');
-  
-  const cs=getComputedStyle(s);
-  preview.style.setProperty('--glow',cs.getPropertyValue('--glow'));
-  preview.style.setProperty('--c1',cs.getPropertyValue('--c1'));
-  preview.style.setProperty('--c2',cs.getPropertyValue('--c2'));
-  
-  if(s.dataset.kind==='code'){
-    preview.className='preview code';
-    preview.innerHTML=s.dataset.code;
-  }else{
-    preview.className='preview visual';
-    preview.innerHTML=createMediaElement(s.dataset.main);
-  }
   
   document.getElementById('p-title').textContent = s.dataset.title;
   document.getElementById('p-desc').textContent = s.dataset.desc;
